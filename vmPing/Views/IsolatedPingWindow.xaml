@@ -21,7 +21,7 @@
 
             <!-- Ping output section -->
             <DockPanel Grid.Row="1">
-                
+
                 <!-- Ping statistics -->
                 <DockPanel DockPanel.Dock="Bottom"
                            Background="Transparent">
@@ -90,6 +90,48 @@
                             </EventTrigger>
                         </TextBlock.Triggers>
                     </TextBlock>
+                    <TextBlock Text="  Min: " Opacity="0.8"/>
+                    <TextBlock Text="{Binding Statistics.Min, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         AutoReverse="True"
+                                                         From="1.0" To="0.75" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                    <TextBlock Text="  Avg: " Opacity="0.8"/>
+                    <TextBlock Text="{Binding Statistics.Average, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         AutoReverse="True"
+                                                         From="1.0" To="0.75" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                    <TextBlock Text="  Max: " Opacity="0.8"/>
+                    <TextBlock Text="{Binding Statistics.Max, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         AutoReverse="True"
+                                                         From="1.0" To="0.75" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
                 </DockPanel>
 
                 <!-- Ping history -->
@@ -124,7 +166,7 @@
                 </TextBox>
             </DockPanel>
 
-            
+
             <!-- Hostname section -->
             <Label Grid.Row="0"
                    FontWeight="SemiBold"

@@ -169,7 +169,7 @@ namespace vmPing.Classes
         {
             // TODO: This should be a computed property.
             StatisticsText =
-                $"Sent: {Statistics.Sent} Received: {Statistics.Received} Lost: {Statistics.Lost}";
+                $"Sent: {Statistics.Sent} Received: {Statistics.Received} Lost: {Statistics.Lost}\nMin: {Statistics.Min} Avg: {Statistics.Average} Max: {Statistics.Max}";
         }
 
         private void TriggerStatusChange(StatusChangeLog status)

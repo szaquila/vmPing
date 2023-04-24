@@ -99,8 +99,8 @@ namespace vmPing.Classes
                         }
 
                         // Update output.
-                        DisplayStatistics();
                         DisplayIcmpReply(null, ex);
+                        DisplayStatistics();
 
                         // Pause between probes.
                         await Task.Delay(ApplicationOptions.PingInterval);
@@ -143,6 +143,13 @@ namespace vmPing.Classes
                     case IPStatus.Success:
                         pingOutput.Append("Reply from ");
                         pingOutput.Append(pingReply.Address.ToString());
+                        if (pingReply.RoundtripTime < Statistics.Min) {
+                          Statistics.Min = (uint)pingReply.RoundtripTime;
+                        }
+                        if (pingReply.RoundtripTime > Statistics.Max) {
+                          Statistics.Max = (uint)pingReply.RoundtripTime;
+                        }
+                        Statistics.Average = (uint)((pingReply.RoundtripTime + Statistics.Average * (Statistics.Sent - 1))/Statistics.Sent);
                         if (pingReply.RoundtripTime < 1)
                             pingOutput.Append("  [<1ms]");
                         else
