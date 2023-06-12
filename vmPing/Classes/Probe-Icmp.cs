@@ -59,6 +59,7 @@ namespace vmPing.Classes
                         else
                         {
                             Statistics.Lost++;
+                            Statistics.Rate = (float)decimal.Round(Statistics.Lost * 100 / Statistics.Sent, 2);
                             IndeterminateCount++;
                             if (Status == ProbeStatus.Up) Status = ProbeStatus.Indeterminate;
                             if (Status == ProbeStatus.Inactive) Status = ProbeStatus.Down;
@@ -87,6 +88,7 @@ namespace vmPing.Classes
                     catch (Exception ex)
                     {
                         Statistics.Lost++;
+                        Statistics.Rate = (float)decimal.Round(Statistics.Lost * 100 / Statistics.Sent, 2);
 
                         // Check for status change.
                         if (Status == ProbeStatus.Inactive) Status = ProbeStatus.Down;
@@ -143,13 +145,13 @@ namespace vmPing.Classes
                     case IPStatus.Success:
                         pingOutput.Append("Reply from ");
                         pingOutput.Append(pingReply.Address.ToString());
-                        if (pingReply.RoundtripTime < Statistics.Min) {
+                        if (Statistics.Min > pingReply.RoundtripTime) {
                           Statistics.Min = (uint)pingReply.RoundtripTime;
                         }
-                        if (pingReply.RoundtripTime > Statistics.Max) {
+                        if (Statistics.Max < pingReply.RoundtripTime) {
                           Statistics.Max = (uint)pingReply.RoundtripTime;
                         }
-                        Statistics.Average = (uint)((pingReply.RoundtripTime + Statistics.Average * (Statistics.Sent - 1))/Statistics.Sent);
+                        Statistics.Average = (Statistics.Average * (Statistics.Sent - 1) + pingReply.RoundtripTime) / Statistics.Sent;
                         if (pingReply.RoundtripTime < 1)
                             pingOutput.Append("  [<1ms]");
                         else

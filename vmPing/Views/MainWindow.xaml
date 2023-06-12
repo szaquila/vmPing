@@ -494,6 +494,21 @@
                                             </EventTrigger>
                                         </TextBlock.Triggers>
                                     </TextBlock>
+                                    <TextBlock Text="(" Opacity="0.8"/>
+                                    <TextBlock Text="{Binding Statistics.Rate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                                        <TextBlock.Triggers>
+                                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                         AutoReverse="True"
+                                                                         From="1.0" To="0.75" Duration="0:0:0.3"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </TextBlock.Triggers>
+                                    </TextBlock>
+                                    <TextBlock Text="%)" Opacity="0.8"/>
                                     <TextBlock Text="  Min: " Opacity="0.8"/>
                                     <TextBlock Text="{Binding Statistics.Min, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
                                         <TextBlock.Triggers>
@@ -509,7 +524,7 @@
                                         </TextBlock.Triggers>
                                     </TextBlock>
                                     <TextBlock Text="  Avg: " Opacity="0.8"/>
-                                    <TextBlock Text="{Binding Statistics.Average, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                                    <TextBlock Text="{Binding Statistics.Average, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, StringFormat={}{0:F2}}">
                                         <TextBlock.Triggers>
                                             <EventTrigger RoutedEvent="Binding.TargetUpdated">
                                                 <BeginStoryboard>

@@ -29,6 +29,12 @@ namespace vmPing.Classes
             set { lost = value; OnPropertyChanged(); }
         }
 
+        private float rate;
+        public float Rate{
+            get => rate;
+            set { rate = value; OnPropertyChanged(); }
+        }
+
         private uint error;
         public uint Error
         {
@@ -50,8 +56,8 @@ namespace vmPing.Classes
             set { max = value; OnPropertyChanged(); }
         }
 
-        private uint average;
-        public uint Average
+        private float average;
+        public float Average
         {
             get => average;
             set { average = value; OnPropertyChanged(); }
@@ -62,6 +68,7 @@ namespace vmPing.Classes
             sent = 0;
             received = 0;
             lost = 0;
+            rate = 0;
             error = 0;
             min = 1000;
             max = 0;
@@ -69,6 +76,7 @@ namespace vmPing.Classes
             OnPropertyChanged(name: "Sent");
             OnPropertyChanged(name: "Received");
             OnPropertyChanged(name: "Lost");
+            OnPropertyChanged(name: "Rate");
             OnPropertyChanged(name: "Error");
             OnPropertyChanged(name: "Min");
             OnPropertyChanged(name: "Max");
