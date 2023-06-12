@@ -32,7 +32,7 @@ namespace vmPing.Classes
                     {
                         // Send ping.
                         Statistics.Sent++;
-                        Statistics.Rate = (float)decimal.Round(Statistics.Lost * 100 / Statistics.Sent, 2);
+                        Statistics.Rate = (float)Math.Round((float)Statistics.Lost * 100 / (float)Statistics.Sent, 2);
                         PingReply reply = await ping.SendPingAsync(
                             hostNameOrAddress: Hostname,
                             timeout: ApplicationOptions.PingTimeout,
@@ -60,7 +60,7 @@ namespace vmPing.Classes
                         else
                         {
                             Statistics.Lost++;
-                            Statistics.Rate = (float)decimal.Round(Statistics.Lost * 100 / Statistics.Sent, 2);
+                            Statistics.Rate = (float)Math.Round((float)Statistics.Lost * 100 / (float)Statistics.Sent, 2);
                             IndeterminateCount++;
                             if (Status == ProbeStatus.Up) Status = ProbeStatus.Indeterminate;
                             if (Status == ProbeStatus.Inactive) Status = ProbeStatus.Down;
@@ -89,7 +89,7 @@ namespace vmPing.Classes
                     catch (Exception ex)
                     {
                         Statistics.Lost++;
-                        Statistics.Rate = (float)decimal.Round(Statistics.Lost * 100 / Statistics.Sent, 2);
+                        Statistics.Rate = (float)Math.Round((float)Statistics.Lost * 100 / (float)Statistics.Sent, 2);
 
                         // Check for status change.
                         if (Status == ProbeStatus.Inactive) Status = ProbeStatus.Down;
