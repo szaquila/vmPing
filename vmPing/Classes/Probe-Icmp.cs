@@ -32,6 +32,7 @@ namespace vmPing.Classes
                     {
                         // Send ping.
                         Statistics.Sent++;
+                        Statistics.Rate = (float)decimal.Round(Statistics.Lost * 100 / Statistics.Sent, 2);
                         PingReply reply = await ping.SendPingAsync(
                             hostNameOrAddress: Hostname,
                             timeout: ApplicationOptions.PingTimeout,
