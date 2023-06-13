@@ -79,7 +79,7 @@ namespace vmPing.Classes
                         {
                             // Update output.
                             DisplayStatistics();
-                            DisplayIcmpReply(reply);
+                            DisplayIcmpReply(reply, Statistics);
 
                             // Pause between probes.
                             await IcmpWait(reply.Status);
@@ -102,7 +102,7 @@ namespace vmPing.Classes
                         }
 
                         // Update output.
-                        DisplayIcmpReply(null, ex);
+                        DisplayIcmpReply(null, Statistics, ex);
                         DisplayStatistics();
 
                         // Pause between probes.
@@ -132,12 +132,12 @@ namespace vmPing.Classes
         }
 
 
-        private void DisplayIcmpReply(PingReply pingReply, Exception ex = null)
+        private void DisplayIcmpReply(PingReply pingReply, PingStatistics Statistics, Exception ex = null)
         {
             if (pingReply == null && ex == null) return;
 
             // Build output string based on the ping reply details.
-            var pingOutput = new StringBuilder($"[{DateTime.Now.ToLongTimeString()}]  ");
+            var pingOutput = new StringBuilder($"[{DateTime.Now.ToLongTimeString()}] ");
 
             if (pingReply != null)
             {
@@ -153,10 +153,17 @@ namespace vmPing.Classes
                           Statistics.Max = (uint)pingReply.RoundtripTime;
                         }
                         Statistics.Average = (Statistics.Average * (Statistics.Sent - 1) + pingReply.RoundtripTime) / Statistics.Sent;
-                        if (pingReply.RoundtripTime < 1)
-                            pingOutput.Append("  [<1ms]");
-                        else
-                            pingOutput.Append($"  [{pingReply.RoundtripTime} ms]");
+                        pingOutput.Append(": time=");
+                        // if (pingReply.RoundtripTime < 1)
+                        //     pingOutput.Append("  [<1ms]");
+                        // else
+                        pingOutput.Append($"{pingReply.RoundtripTime}ms");
+                        pingOutput.Append(" seq=");
+                        pingOutput.Append($"{Statistics.Sent}");
+                        pingOutput.Append(" ttl=");
+                        pingOutput.Append($"{pingReply.Options.Ttl}");
+                        pingOutput.Append(" byte=");
+                        pingOutput.Append($"{pingReply.Buffer.Length-1}");
                         break;
                     case IPStatus.DestinationHostUnreachable:
                         pingOutput.Append("Reply  [Host unreachable]");
